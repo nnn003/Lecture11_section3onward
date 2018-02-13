@@ -19,6 +19,17 @@ You can include R code in the document as follows:
 summary(cars)
 ```
 
+```{r}
+library(bio3d)
+# Download some example PDB files
+ids <- c("1TND_B","1AGR_A","1TAG_A","1GG2_A","1KJY_A","4G5Q_A")
+files <- get.pdb(ids, split = TRUE)
+# Extract and align the chains we are interested in
+pdbs <- pdbaln(files, fit = TRUE)
+# Print to screen a summary of the 'pdbs' object
+pdbs
+```
+
 ## Including Plots
 
 You can also embed plots, for example:
