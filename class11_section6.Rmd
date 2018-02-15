@@ -14,17 +14,40 @@ This is an R Markdown format used for publishing markdown documents to GitHub. W
 ## Including Code
 
 You can include R code in the document as follows:
+```{r}
+library(bio3d)
+install.packages(c("devtools", "RCurl", "XML"))
+library(devtools)
+install_bitbucket("Grantlab/bio3d", subdir="ver_devel/bio3d/")
 
-```{r cars}
-summary(cars)
+aa <- get.seq("1ake_A")
+b <-hmmer(aa)
+
+# Plot a summary of search results  
+hits <- plot(b)
+
+head(hits$pdb.id)
 ```
+
+```{r}
+# Fetch PDBs 
+files <- get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE) 
+
+# Align structures 
+pdbs <- pdbaln(files)
+
+# Vector containing PDB codes 
+ids <- basename.pdb(pdbs$id)
+
+# Draw schematic alignment   
+plot(pdbs, labels=ids)
+```
+
 
 ## Including Plots
 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
